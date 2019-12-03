@@ -42,7 +42,7 @@ public class CardGame {
         Scanner userInput = new Scanner(System.in);
 
         //creating the gameLoop,taking bet
-        while (playerMoney < 0) {
+        while (playerMoney > 0) {
             System.out.println("You have " + playerMoney + "€ to play with, how much do you wanna bet?");
             double playerBet = userInput.nextDouble();
             if (playerBet > playerMoney) {
@@ -72,7 +72,7 @@ public class CardGame {
                 int response = userInput.nextInt();
 
                 //if HIT
-                if (response == 1) ;
+                if (response == 1)
                 {
                     playerDeck.draw(playingDeck);                                               //-1 för att få rätt indx
                     System.out.println("You draw :" + playerDeck.getCard(playerDeck.deckSize() - 1).toString());
@@ -92,11 +92,6 @@ public class CardGame {
 
             //reveal the dealers card
             System.out.println("dealers card :" + dealerDeck.toString());
-            //see if the dealer has more points then the player
-            if ((dealerDeck.cardsValue() > playerDeck.cardsValue()) && endRound == false) ;
-            System.out.println("The dealers wins, you loose baby!!");
-            playerMoney -= playerBet;
-            endRound = true;
 
             //Dealers draw att 16 but stand at 17
             while ((dealerDeck.cardsValue() < 17) && endRound == false) {
@@ -122,9 +117,16 @@ public class CardGame {
                 playerMoney += playerBet;
                 endRound = true;
             }
+            //see if the dealer has more points then the player
+            if ((dealerDeck.cardsValue() > playerDeck.cardsValue()) && endRound == false) {
+                System.out.println("The dealers wins, you loose baby!!");
+                playerMoney -= playerBet;
+                endRound = true;
+            }
         }
 
         System.out.println("Sorry, your game has ended because of insufficient funds, This game is now over!");
+        userInput.close();
     }
 }
 
